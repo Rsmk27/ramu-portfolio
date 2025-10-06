@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Narlapati Ramu | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0A192F;
+      --accent: #4CA1AF;
+      --text: #E6F1FF;
+      --background: #FAFAFA;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--background);
+      color: var(--primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    header {
+      background-color: var(--primary);
+      color: var(--text);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    header h1 span {
+      color: var(--accent);
+    }
+    nav a {
+      color: var(--text);
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    nav a:hover {
+      color: var(--accent);
+    }
+    section {
+      padding: 4rem 2rem;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .hero {
+      text-align: center;
+      padding-top: 5rem;
+      background-color: var(--primary);
+      color: var(--text);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.8rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeSlideIn 1.2s ease forwards 0.3s;
+    }
+    .hero p {
+      margin-top: 1rem;
+      color: #cfd9e6;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeSlideIn 1.2s ease forwards 0.6s;
+    }
+    .btn {
+      background-color: var(--accent);
+      color: var(--text);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      margin-top: 2rem;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeSlideIn 1.2s ease forwards 0.9s;
+    }
+    .btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    /* Floating Circles Background Animation */
+    .floating-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .circle {
+      position: absolute;
+      bottom: -150px;
+      background: rgba(76,161,175,0.15);
+      border-radius: 50%;
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp {
+      from { transform: translateY(0) rotate(0deg); opacity: 1; }
+      to { transform: translateY(-1000px) rotate(360deg); opacity: 0; }
+    }
+    .skills, .projects, .contact, .education, .certifications, .experience, .blog {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      margin-bottom: 3rem;
+      padding: 2rem;
+    }
+    .skills h2, .projects h2, .contact h2, .education h2, .certifications h2, .experience h2, .blog h2 {
+      color: var(--primary);
+      border-left: 5px solid var(--accent);
+      padding-left: 10px;
+      margin-bottom: 1rem;
+      font-family: 'Poppins', sans-serif;
+    }
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .skill {
+      background-color: var(--accent);
+      color: var(--text);
+      padding: 0.75rem 1.25rem;
+      border-radius: 25px;
+      font-weight: bold;
+    }
+    .project-grid, .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    .project, .blog-post {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      padding: 1rem;
+      transition: transform 0.3s;
+    }
+    .project:hover, .blog-post:hover {
+      transform: translateY(-5px);
+    }
+    .contact form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    input, textarea {
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    footer {
+      background-color: var(--primary);
+      color: var(--text);
+      text-align: center;
+      padding: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Narlapati <span>Ramu</span></h1>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="floating-bg" id="floating-bg"></div>
+    <h1>Electrical & Electronics Engineer</h1>
+    <p>Problem-Solver | Innovator | Lifelong Learner</p>
+    <button class="btn" onclick="document.querySelector('#projects').scrollIntoView({behavior:'smooth'})">View My Work</button>
+  </section>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <p>My name is Narlapati Ramu, a passionate Electrical and Electronics Engineer dedicated to innovation and practical problem-solving. I aim to apply my knowledge to real-world challenges, focusing on automation, IoT, and smart technologies that create a meaningful impact.</p>
+  </section>
+
+  <section class="skills" id="skills">
+    <h2>Skills</h2>
+    <div class="skills-list">
+      <div class="skill">Generative AI</div>
+      <div class="skill">Automation</div>
+      <div class="skill">Internet of Things (IoT)</div>
+      <div class="skill">Arduino Development</div>
+      <div class="skill">Embedded Systems</div>
+    </div>
+  </section>
+
+  <section class="education" id="education">
+    <h2>Education</h2>
+    <div class="education-item">
+      <h3>Jawaharlal Nehru Technological University Kakinada (JNTUK)</h3>
+      <p>Bachelor of Technology - BTech, Electrical and Electronics Engineering (August 2024 - May 2026)</p>
+    </div>
+    <div class="education-item">
+      <h3>State Board of Technical Education and Training (SBTET), Andhra Pradesh</h3>
+      <p>Diploma of Education, Electrical and Electronics Engineering (June 2021 - May 2023)</p>
+    </div>
+  </section>
+
+  <section class="certifications" id="certifications">
+    <h2>Certifications</h2>
+    <div class="certifications-list">
+      <div class="certification">Design Thinking for Innovation: Prototyping and Testing</div>
+      <div class="certification">Aeroforge Labs</div>
+      <div class="certification">SRC e-solutions</div>
+      <div class="certification">Chefronics</div>
+    </div>
+  </section>
+
+  <section class="experience" id="experience">
+      <h2>Experience</h2>
+      <p>As a recent graduate, I am actively seeking opportunities to apply my skills and knowledge in a professional setting. I am a quick learner and am eager to contribute to a dynamic team.</p>
+  </section>
+
+  <section class="projects" id="projects">
+    <h2>Projects</h2>
+    <div class="project-grid">
+      <div class="project">
+        <h3>AI Chatbot with GPT-OSS</h3>
+        <p>A web-based chatbot powered by GPT-OSS using Next.js, integrated with Hugging Face API, and deployed on Vercel.</p>
+      </div>
+      <div class="project">
+        <h3>Automatic Exhaust Fan</h3>
+        <p>Arduino-based air quality monitoring system with MQ-2 sensor, auto-off timer, and manual control.</p>
+      </div>
+      <div class="project">
+        <h3>OhmDecoder</h3>
+        <p>Resistor color code calculator web app for electronics enthusiasts. Live on GitHub Pages.</p>
+      </div>
+    </div>
+  </section>
+  
+  <section class="blog" id="blog">
+      <h2>Blog</h2>
+      <div class="blog-grid">
+          <div class="blog-post">
+              <h3>The Rise of Generative AI</h3>
+              <p>Exploring the impact of generative AI on the tech industry and beyond.</p>
+          </div>
+          <div class="blog-post">
+              <h3>Getting Started with IoT</h3>
+              <p>A beginner's guide to the Internet of Things, from hardware to software.</p>
+          </div>
+      </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <h2>Contact Me</h2>
+    <form>
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Your Email" required />
+      <textarea rows="5" placeholder="Your Message" required></textarea>
+      <button class="btn" type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Narlapati Ramu. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // Create floating circles dynamically
+    const bg = document.getElementById('floating-bg');
+    for (let i = 0; i < 15; i++) {
+      const circle = document.createElement('div');
+      const size = Math.random() * 100 + 30;
+      circle.classList.add('circle');
+      circle.style.width = `${size}px`;
+      circle.style.height = `${size}px`;
+      circle.style.left = `${Math.random() * window.innerWidth}px`;
+      circle.style.animationDuration = `${10 + Math.random() * 10}s`;
+      circle.style.animationDelay = `${Math.random() * 5}s`;
+      bg.appendChild(circle);
+    }
+  </script>
+</body>
+</html>
