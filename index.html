@@ -4,16 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Narlapati Ramu | Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #0A192F;
+      --primary-light: #112240;
       --accent: #4CA1AF;
-      --accent-light: #64ffda; /* A brighter accent for highlights */
+      --accent-light: #64ffda;
       --text: #E6F1FF;
       --text-secondary: #8892b0;
-      --background: #FAFAFA;
+      --background: #F8F9FA; /* Slightly off-white for a softer look */
       --card-bg: #FFFFFF;
+      --shadow-color: rgba(10, 25, 47, 0.1);
     }
     * {
       margin: 0;
@@ -29,11 +31,29 @@
       overflow-x: hidden;
     }
 
+    /* General UI Elements */
+    .btn {
+        display: inline-block;
+        padding: 0.75rem 1.75rem;
+        border: 2px solid var(--accent);
+        background-color: transparent;
+        color: var(--accent);
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+        transition: all 0.3s ease;
+    }
+    .btn:hover, .btn:focus-visible {
+        background-color: var(--accent);
+        color: white;
+    }
+
     /* Header & Navigation */
     header {
       background-color: rgba(10, 25, 47, 0.85);
       backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px); /* For Safari */
+      -webkit-backdrop-filter: blur(10px);
       color: var(--text);
       padding: 1rem 2rem;
       display: flex;
@@ -42,10 +62,15 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      transition: top 0.3s;
+      transition: box-shadow 0.3s, padding 0.3s;
+    }
+    header.scrolled {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        padding: 0.75rem 2rem;
     }
     header h1 {
-        font-size: 1.5rem;
+      font-size: 1.5rem;
+      font-family: 'Poppins', sans-serif;
     }
     header h1 span {
       color: var(--accent-light);
@@ -59,25 +84,26 @@
       transition: color 0.3s;
     }
     nav a::after {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 2px;
-        bottom: -5px;
-        left: 0;
-        background-color: var(--accent-light);
-        transition: width 0.3s;
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--accent-light);
+      transition: width 0.3s;
     }
-    nav a:hover {
+    nav a:hover, nav a:focus-visible {
       color: var(--accent-light);
+      outline: none; /* Custom focus handled by ::after */
     }
-    nav a:hover::after {
-        width: 100%;
+    nav a:hover::after, nav a:focus-visible::after {
+      width: 100%;
     }
     
     /* Section Base & Animation */
     section {
-      padding: 5rem 2rem;
+      padding: 6rem 2rem;
       max-width: 1100px;
       margin: auto;
       opacity: 0;
@@ -85,8 +111,8 @@
       transition: opacity 0.8s ease-out, transform 0.8s ease-out;
     }
     section.is-visible {
-        opacity: 1;
-        transform: translateY(0);
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* Hero Section */
@@ -101,13 +127,29 @@
       position: relative;
       overflow: hidden;
       padding: 5rem 2rem;
-      opacity: 1; /* Ensure hero is visible on load */
-      transform: translateY(0); /* Ensure hero is visible on load */
+      opacity: 1;
+      transform: translateY(0);
+    }
+    #particle-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+    .hero-content {
+        position: relative;
+        z-index: 2; /* Ensure content is above the canvas */
     }
     .hero-content p {
       margin-top: 1rem;
+      margin-bottom: 2rem;
       color: var(--text-secondary);
-      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
       opacity: 0;
       transform: translateY(20px);
       animation: fadeSlideIn 1.2s ease forwards 0.6s;
@@ -116,19 +158,25 @@
       opacity: 0;
       transform: translateY(10px);
       animation: fadeSlideIn 1.2s ease forwards 0.9s;
+      color: var(--accent-light);
+      border-color: var(--accent-light);
+    }
+    .hero-content .btn:hover {
+        background-color: var(--accent-light);
+        color: var(--primary);
     }
     .hero h1 {
       font-family: 'Poppins', sans-serif;
-      font-size: clamp(2rem, 5vw, 3.5rem); /* Responsive typography */
-      min-height: 1.2em; /* Reserve space for text to avoid layout shift */
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      min-height: 1.2em; /* Reserve space */
     }
     .typing-cursor {
-        display: inline-block;
-        width: 3px;
-        height: 1em;
-        background-color: var(--accent-light);
-        animation: blink 0.7s infinite;
-        vertical-align: middle;
+      display: inline-block;
+      width: 4px;
+      height: 1em;
+      background-color: var(--accent-light);
+      animation: blink 0.7s infinite;
+      vertical-align: middle;
     }
     @keyframes blink { 50% { opacity: 0; } }
     @keyframes fadeSlideIn {
@@ -136,12 +184,24 @@
       to { opacity: 1; transform: translateY(0); }
     }
     
-    /* Floating Circles Background Animation */
-    .floating-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0; }
-    .circle { position: absolute; bottom: -150px; background: rgba(100, 255, 218, 0.05); border-radius: 50%; animation: floatUp linear infinite; }
-    @keyframes floatUp { from { transform: translateY(0) rotate(0deg); opacity: 1; } to { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
+    /* Content Section Base Styling */
+    .content-section {
+        background-color: var(--card-bg);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px -15px var(--shadow-color);
+        margin-bottom: 3rem;
+        padding: 3rem;
+    }
+    h2 {
+      color: var(--primary);
+      border-left: 5px solid var(--accent);
+      padding-left: 15px;
+      margin-bottom: 2.5rem;
+      font-family: 'Poppins', sans-serif;
+      font-size: 2rem;
+    }
     
-    /* About Me Section with Profile Picture */
+    /* About Me Section (Zig-Zag Layout) */
     .about-container {
       display: flex;
       align-items: center;
@@ -152,7 +212,8 @@
     }
     .profile-picture-container {
       flex: 1;
-      max-width: 250px;
+      max-width: 280px;
+      position: relative;
     }
     .profile-picture {
       width: 100%;
@@ -160,40 +221,53 @@
       aspect-ratio: 1 / 1;
       border-radius: 50%;
       object-fit: cover;
-      border: 5px solid #fff;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border: 5px solid var(--accent);
+      box-shadow: 0 10px 30px var(--shadow-color);
+      transition: transform 0.3s;
+    }
+    .profile-picture:hover {
+        transform: scale(1.05);
     }
 
-    /* Content Sections Styling */
-    .skills, .projects, .contact, .education {
-      background-color: var(--card-bg);
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-      margin-bottom: 3rem;
-      padding: 2.5rem;
-    }
-    h2 {
-      color: var(--primary);
-      border-left: 5px solid var(--accent);
-      padding-left: 15px;
-      margin-bottom: 2rem;
-      font-family: 'Poppins', sans-serif;
-      font-size: 1.8rem;
-    }
-    
     /* Skills Section */
     .skills-list { display: flex; flex-wrap: wrap; gap: 1rem; }
-    .skill { background-color: #f0f8ff; color: var(--primary); padding: 0.75rem 1.25rem; border-radius: 25px; font-weight: 500; transition: transform 0.2s, box-shadow 0.2s; }
-    .skill:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(76,161,175,0.2); }
+    .skill { background-color: #eef7f8; color: var(--accent); padding: 0.75rem 1.25rem; border-radius: 25px; font-weight: 500; transition: transform 0.2s, box-shadow 0.2s; border: 1px solid var(--accent); }
+    .skill:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(76,161,175,0.2); background-color: var(--accent); color: white; }
+    
+    /* Education Section */
+    .education-item {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #eee;
+    }
+    .education-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
     
     /* Projects Section */
     .project-filters { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
-    .filter-btn { background: #eee; border: none; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; transition: all 0.3s; }
+    .filter-btn { background: #eee; border: none; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; transition: all 0.3s; font-weight: 500; }
     .filter-btn.active { background: var(--accent); color: white; }
-    .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
-    .project { background-color: #fff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); padding: 1.5rem; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; }
-    .project.hide { display: none; }
-    .project:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+    .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    .project { 
+        background-color: #fff; 
+        border-radius: 10px; 
+        box-shadow: 0 4px 12px var(--shadow-color); 
+        padding: 1.5rem; 
+        transition: transform 0.3s, box-shadow 0.3s, opacity 0.4s, scale 0.4s; 
+        cursor: pointer; 
+        border: 1px solid #eee;
+        scale: 1;
+        opacity: 1;
+    }
+    .project.hide { 
+        scale: 0.8;
+        opacity: 0;
+        pointer-events: none; /* Make hidden items unclickable */
+    }
+    .project:hover { transform: translateY(-8px); box-shadow: 0 12px 25px var(--shadow-color); }
     .project h3 { font-family: 'Poppins', sans-serif; margin-bottom: 0.5rem; color: var(--primary); }
     .project p { color: #555; }
     
@@ -202,57 +276,69 @@
     .modal.active { opacity: 1; visibility: visible; }
     .modal-content { background: white; padding: 2rem; border-radius: 12px; width: 90%; max-width: 600px; transform: scale(0.9); transition: transform 0.3s; position: relative; }
     .modal.active .modal-content { transform: scale(1); }
-    .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+    .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #555; transition: color 0.2s; }
+    .modal-close:hover { color: var(--primary); }
     .modal-content img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
+    .modal-content a.btn { margin-top: 1rem; }
     
     /* Contact Section */
     .contact form { display: flex; flex-direction: column; gap: 1rem; }
-    input, textarea { padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc; font-family: 'Inter', sans-serif; }
+    input, textarea { padding: 1rem; border-radius: 8px; border: 1px solid #ccc; font-family: 'Inter', sans-serif; transition: border-color 0.3s, box-shadow 0.3s; }
+    input:focus, textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(76, 161, 175, 0.2);
+    }
     
     /* Footer */
-    footer { background-color: var(--primary); color: var(--text-secondary); text-align: center; padding: 1.5rem; }
+    footer { background-color: var(--primary); color: var(--text-secondary); text-align: center; padding: 2rem; }
 
-    /* Mobile Responsive (Hamburger Menu & About Section) */
-    .hamburger { display: none; cursor: pointer; z-index: 101; }
+    /* Hamburger Menu & Mobile Responsiveness */
+    .hamburger { display: none; cursor: pointer; z-index: 101; background: none; border: none; padding: 5px; }
     .hamburger div { width: 25px; height: 3px; background-color: var(--text); margin: 5px; transition: all 0.3s; }
     
     @media (max-width: 768px) {
+        h2 { font-size: 1.8rem; }
+        section { padding: 4rem 1.5rem; }
+        .content-section { padding: 2rem; }
+        
         nav {
             position: fixed;
             top: 0;
             right: 0;
             height: 100vh;
             width: 70%;
-            background: #112240;
+            background: var(--primary-light);
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            display: flex; /* Ensure it's a flex container */
             transform: translateX(100%);
             transition: transform 0.4s ease-in-out;
         }
         nav.active {
             transform: translateX(0);
         }
-        nav a { margin: 1.5rem 0; }
+        nav a { margin: 1.5rem 0; font-size: 1.2rem; }
         .hamburger { display: block; }
         .hamburger.toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
         .hamburger.toggle .line2 { opacity: 0; }
         .hamburger.toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
 
         .about-container {
-          flex-direction: column;
-          text-align: center;
+            flex-direction: column;
+            text-align: center;
         }
         .profile-picture-container {
-          order: -1; /* Move image to the top on mobile */
-          margin-bottom: 2rem;
-          max-width: 200px;
+            order: -1; /* Move image to the top on mobile */
+            margin-bottom: 2rem;
+            max-width: 200px;
         }
     }
   </style>
 </head>
 <body>
-  <header>
+  <header id="header">
     <h1>Narlapati <span>Ramu</span></h1>
     <nav id="nav-links">
       <a href="#home">Home</a>
@@ -261,118 +347,121 @@
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
     </nav>
-    <div class="hamburger" id="hamburger">
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
         <div class="line1"></div>
         <div class="line2"></div>
         <div class="line3"></div>
-    </div>
+    </button>
   </header>
 
-  <section class="hero" id="home">
-    <div class="floating-bg" id="floating-bg"></div>
-    <div class="hero-content">
-        <h1><span id="typing-text"></span><span class="typing-cursor"></span></h1>
-        <p>Problem-Solver | Innovator | Lifelong Learner</p>
-        <button class="btn" onclick="document.querySelector('#projects').scrollIntoView({behavior:'smooth'})">View My Work</button>
-    </div>
-  </section>
-
-  <section id="about" class="fade-in-section">
-    <div class="about-container">
-      <div class="about-text">
-        <h2>About Me</h2>
-        <p>My name is Narlapati Ramu, a passionate Electrical and Electronics Engineer dedicated to innovation and practical problem-solving. I aim to apply my knowledge to real-world challenges, focusing on automation, IoT, and smart technologies that create a meaningful impact.</p>
+  <main>
+    <section class="hero" id="home">
+      <canvas id="particle-canvas"></canvas>
+      <div class="hero-content">
+          <h1><span id="typing-text"></span><span class="typing-cursor"></span></h1>
+          <p>Problem-Solver | Innovator | Lifelong Learner</p>
+          <a href="#projects" class="btn">View My Work</a>
       </div>
-      <div class="profile-picture-container">
-        <!-- You can replace this placeholder URL with your actual image URL -->
-        <img src="ramu-proflie.png" alt="Narlapati Ramu Profile Picture" class="profile-picture">
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="skills fade-in-section" id="skills">
-    <h2>Skills</h2>
-    <div class="skills-list">
-      <div class="skill">Generative AI</div>
-      <div class="skill">Automation</div>
-      <div class="skill">Internet of Things (IoT)</div>
-      <div class="skill">Arduino Development</div>
-      <div class="skill">Embedded Systems</div>
-    </div>
-  </section>
-  
-  <section class="education fade-in-section" id="education">
+    <section id="about" class="fade-in-section content-section">
+      <div class="about-container">
+        <div class="about-text">
+          <h2>About Me</h2>
+          <p>My name is Narlapati Ramu, a passionate Electrical and Electronics Engineer dedicated to innovation and practical problem-solving. I aim to apply my knowledge to real-world challenges, focusing on automation, IoT, and smart technologies that create a meaningful impact.</p>
+        </div>
+        <div class="profile-picture-container">
+          <img src="ramu-proflie.png" alt="A profile picture of Narlapati Ramu" class="profile-picture">
+        </div>
+      </div>
+    </section>
+
+    <section class="skills fade-in-section content-section" id="skills">
+      <h2>My Skillset</h2>
+      <div class="skills-list">
+        <div class="skill">Generative AI</div>
+        <div class="skill">Automation</div>
+        <div class="skill">Internet of Things (IoT)</div>
+        <div class="skill">Arduino Development</div>
+        <div class="skill">Embedded Systems</div>
+      </div>
+    </section>
+    
+    <section class="education fade-in-section content-section" id="education">
       <h2>Education</h2>
-      <p><strong>Jawaharlal Nehru Technological University Kakinada (JNTUK)</strong><br>
-      Bachelor of Technology - BTech, Electrical and Electronics Engineering (2024 - 2026)</p>
-      <hr style="margin: 1.5rem 0; border: 1px solid #eee;">
-      <p><strong>State Board of Technical Education and Training (SBTET), Andhra Pradesh</strong><br>
-      Diploma of Education, Electrical and Electronics Engineering (2021 - 2023)</p>
-  </section>
-
-  <section class="projects fade-in-section" id="projects">
-    <h2>Projects</h2>
-    <div class="project-filters">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="ai">Generative AI</button>
-        <button class="filter-btn" data-filter="automation">Automation</button>
-        <button class="filter-btn" data-filter="iot">IoT</button>
-    </div>
-    <div class="project-grid">
-      <div class="project" data-category="ai" data-modal-target="#modal-chatbot">
-        <h3>AI Chatbot with GPT-OSS</h3>
-        <p>A web-based chatbot powered by GPT-OSS and Hugging Face.</p>
+      <div class="education-item">
+          <p><strong>Jawaharlal Nehru Technological University Kakinada (JNTUK)</strong><br>
+          Bachelor of Technology - BTech, Electrical and Electronics Engineering (2024 - 2026)</p>
       </div>
-      <div class="project" data-category="automation" data-modal-target="#modal-exhaust">
-        <h3>Automatic Exhaust Fan</h3>
-        <p>Arduino-based air quality system with MQ-2 sensor and auto-control.</p>
+      <div class="education-item">
+          <p><strong>State Board of Technical Education and Training (SBTET), Andhra Pradesh</strong><br>
+          Diploma of Education, Electrical and Electronics Engineering (2021 - 2023)</p>
       </div>
-      <div class="project" data-category="iot" data-modal-target="#modal-ohmdecoder">
-        <h3>OhmDecoder</h3>
-        <p>Resistor color code calculator web app for electronics enthusiasts.</p>
+    </section>
+
+    <section class="projects fade-in-section content-section" id="projects">
+      <h2>My Projects</h2>
+      <div class="project-filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="ai">Generative AI</button>
+          <button class="filter-btn" data-filter="automation">Automation</button>
+          <button class="filter-btn" data-filter="iot">IoT</button>
       </div>
-    </div>
-  </section>
+      <div class="project-grid">
+        <div class="project" data-category="ai" data-modal-target="#modal-chatbot" tabindex="0">
+          <h3>AI Chatbot with GPT-OSS</h3>
+          <p>A web-based chatbot powered by GPT-OSS and Hugging Face.</p>
+        </div>
+        <div class="project" data-category="automation" data-modal-target="#modal-exhaust" tabindex="0">
+          <h3>Automatic Exhaust Fan</h3>
+          <p>Arduino-based air quality system with MQ-2 sensor and auto-control.</p>
+        </div>
+        <div class="project" data-category="iot" data-modal-target="#modal-ohmdecoder" tabindex="0">
+          <h3>OhmDecoder</h3>
+          <p>Resistor color code calculator web app for electronics enthusiasts.</p>
+        </div>
+      </div>
+    </section>
 
-  <section class="contact fade-in-section" id="contact">
-    <h2>Contact Me</h2>
-    <!-- IMPORTANT: Replace YOUR_FORM_ID with your actual Formspree endpoint -->
-    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-      <input type="text" name="name" placeholder="Your Name" required />
-      <input type="email" name="email" placeholder="Your Email" required />
-      <textarea rows="5" name="message" placeholder="Your Message" required></textarea>
-      <button class="btn" type="submit">Send Message</button>
-    </form>
-  </section>
-
+    <section class="contact fade-in-section content-section" id="contact">
+      <h2>Get In Touch</h2>
+      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea rows="5" name="message" placeholder="Your Message" required></textarea>
+        <button class="btn" type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+  
   <footer>
     <p>&copy; 2025 Narlapati Ramu. All Rights Reserved.</p>
   </footer>
 
   <!-- Project Modals -->
-  <div class="modal" id="modal-chatbot">
+  <div class="modal" id="modal-chatbot" role="dialog" aria-modal="true" aria-labelledby="modal-chatbot-title">
     <div class="modal-content">
-        <button class="modal-close">&times;</button>
-        <img src="https://placehold.co/600x400/0A192F/E6F1FF?text=AI+Chatbot" alt="AI Chatbot">
-        <h2>AI Chatbot with GPT-OSS</h2>
+        <button class="modal-close" aria-label="Close modal">&times;</button>
+        <img src="https://placehold.co/600x400/0A192F/E6F1FF?text=AI+Chatbot" alt="AI Chatbot Project Image">
+        <h2 id="modal-chatbot-title">AI Chatbot with GPT-OSS</h2>
         <p>This project features a fully functional, web-based chatbot powered by a GPT open-source model. It was built using Next.js for the frontend, integrated with the Hugging Face API for the AI inference, and is seamlessly deployed on Vercel for high availability.</p>
         <a href="#" class="btn" style="margin-top: 1rem;">View Live</a>
     </div>
   </div>
-  <div class="modal" id="modal-exhaust">
+  <div class="modal" id="modal-exhaust" role="dialog" aria-modal="true" aria-labelledby="modal-exhaust-title">
     <div class="modal-content">
-        <button class="modal-close">&times;</button>
-        <img src="https://placehold.co/600x400/0A192F/E6F1FF?text=Exhaust+Fan" alt="Automatic Exhaust Fan">
-        <h2>Automatic Exhaust Fan</h2>
+        <button class="modal-close" aria-label="Close modal">&times;</button>
+        <img src="https://placehold.co/600x400/0A192F/E6F1FF?text=Exhaust+Fan" alt="Automatic Exhaust Fan Project Image">
+        <h2 id="modal-exhaust-title">Automatic Exhaust Fan</h2>
         <p>An intelligent, Arduino-based system designed to monitor air quality using an MQ-2 gas sensor. The exhaust fan activates automatically when pollutant levels exceed a set threshold and includes a smart auto-off timer and manual override for user convenience.</p>
         <a href="#" class="btn" style="margin-top: 1rem;">View Code</a>
     </div>
   </div>
-  <div class="modal" id="modal-ohmdecoder">
+  <div class="modal" id="modal-ohmdecoder" role="dialog" aria-modal="true" aria-labelledby="modal-ohmdecoder-title">
     <div class="modal-content">
-        <button class="modal-close">&times;</button>
-        <img src="https://placehold.co/600x400/0A192F/E6F1FF?text=OhmDecoder" alt="OhmDecoder">
-        <h2>OhmDecoder</h2>
+        <button class="modal-close" aria-label="Close modal">&times;</button>
+        <img src="https://placehold.co/600x400/0A192F/E6F1FF?text=OhmDecoder" alt="OhmDecoder Project Image">
+        <h2 id="modal-ohmdecoder-title">OhmDecoder</h2>
         <p>A practical and user-friendly web application for electronics enthusiasts and professionals. This tool simplifies the process of identifying resistor values based on their color codes. It is built with HTML, CSS, and JavaScript and is hosted live on GitHub Pages for easy access.</p>
         <a href="#" class="btn" style="margin-top: 1rem;">View Live</a>
     </div>
@@ -381,23 +470,129 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-      // --- Custom Animations ---
+      // --- Interactive Particle Background ---
+      const canvas = document.getElementById('particle-canvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let particlesArray;
 
-      // Typing effect for hero headline
-      const typingText = document.getElementById('typing-text');
-      const textToType = "Electrical & Electronics Engineer";
-      let charIndex = 0;
-      function type() {
-          if (charIndex < textToType.length) {
-              typingText.textContent += textToType.charAt(charIndex);
-              charIndex++;
-              setTimeout(type, 100);
-          }
+        const mouse = {
+            x: null,
+            y: null,
+            radius: 150
+        };
+
+        window.addEventListener('mousemove', (event) => {
+            mouse.x = event.x;
+            mouse.y = event.y;
+        });
+
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.size = size;
+                this.color = color;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = 'rgba(100, 255, 218, 0.8)';
+                ctx.fill();
+            }
+            update() {
+                if (this.x > canvas.width || this.x < 0) {
+                    this.directionX = -this.directionX;
+                }
+                if (this.y > canvas.height || this.y < 0) {
+                    this.directionY = -this.directionY;
+                }
+                this.x += this.directionX;
+                this.y += this.directionY;
+                this.draw();
+            }
+        }
+
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = document.querySelector('.hero').offsetHeight;
+            particlesArray = [];
+            let numberOfParticles = (canvas.width * canvas.height) / 9000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 1;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((canvas.height - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * .4) - .2;
+                let directionY = (Math.random() * .4) - .2;
+                particlesArray.push(new Particle(x, y, directionX, directionY, size));
+            }
+        }
+
+        function connect() {
+            let opacityValue = 1;
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) +
+                                 ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    if (distance < (canvas.width / 7) * (canvas.height / 7)) {
+                        opacityValue = 1 - (distance / 20000);
+                        ctx.strokeStyle = `rgba(140, 149, 178, ${opacityValue})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+            connect();
+        }
+
+        window.addEventListener('resize', () => {
+            init();
+        });
+
+        init();
+        animate();
       }
-      // Start typing after a short delay to ensure visibility
-      setTimeout(type, 500);
 
-      // On-scroll fade-in animations
+      // --- Header scroll effect ---
+      const header = document.getElementById('header');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+
+      // --- Typing effect for hero headline ---
+      const typingText = document.getElementById('typing-text');
+      if (typingText) {
+        const textToType = "Electrical & Electronics Engineer";
+        let charIndex = 0;
+        const type = () => {
+            if (charIndex < textToType.length) {
+                typingText.textContent += textToType.charAt(charIndex);
+                charIndex++;
+                setTimeout(type, 100);
+            }
+        };
+        setTimeout(type, 500);
+      }
+
+      // --- On-scroll fade-in animations ---
       const sections = document.querySelectorAll('.fade-in-section');
       const observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
@@ -408,19 +603,17 @@
       }, { threshold: 0.1 });
       sections.forEach(section => observer.observe(section));
 
-      // --- Modern & Responsive Design ---
-
-      // Hamburger menu for mobile
+      // --- Hamburger menu for mobile ---
       const hamburger = document.getElementById('hamburger');
       const navLinks = document.getElementById('nav-links');
       hamburger.addEventListener('click', () => {
           navLinks.classList.toggle('active');
           hamburger.classList.toggle('toggle');
+          const isExpanded = navLinks.classList.contains('active');
+          hamburger.setAttribute('aria-expanded', isExpanded);
       });
 
-      // --- Interactive Components ---
-
-      // Live project filtering
+      // --- Smooth project filtering ---
       const filterButtons = document.querySelectorAll('.filter-btn');
       const projects = document.querySelectorAll('.project');
       filterButtons.forEach(button => {
@@ -428,57 +621,72 @@
               filterButtons.forEach(btn => btn.classList.remove('active'));
               button.classList.add('active');
               const filter = button.dataset.filter;
+              
               projects.forEach(project => {
-                  project.style.display = 'none'; // Hide all projects initially
                   if (filter === 'all' || project.dataset.category === filter) {
-                      project.style.display = 'block'; // Show matching projects
+                      project.classList.remove('hide');
+                  } else {
+                      project.classList.add('hide');
                   }
               });
           });
       });
       
-      // Project modals
+      // --- Accessible Project Modals ---
       const modalTriggers = document.querySelectorAll('.project');
       const modals = document.querySelectorAll('.modal');
       const closeButtons = document.querySelectorAll('.modal-close');
+      let lastFocusedElement;
+
+      const openModal = (modal) => {
+        lastFocusedElement = document.activeElement;
+        modal.classList.add('active');
+        modal.querySelector('.modal-close').focus();
+      };
+      
+      const closeModal = (modal) => {
+        modal.classList.remove('active');
+        if (lastFocusedElement) {
+            lastFocusedElement.focus();
+        }
+      };
 
       modalTriggers.forEach(trigger => {
-          trigger.addEventListener('click', () => {
-              const targetModal = document.querySelector(trigger.dataset.modalTarget);
-              if (targetModal) targetModal.classList.add('active');
-          });
+        trigger.addEventListener('click', () => {
+            const targetModal = document.querySelector(trigger.dataset.modalTarget);
+            if (targetModal) openModal(targetModal);
+        });
+        trigger.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const targetModal = document.querySelector(trigger.dataset.modalTarget);
+                if (targetModal) openModal(targetModal);
+            }
+        });
       });
 
       closeButtons.forEach(button => {
-          button.addEventListener('click', () => {
-              button.closest('.modal').classList.remove('active');
-          });
+        button.addEventListener('click', () => {
+            closeModal(button.closest('.modal'));
+        });
       });
 
       window.addEventListener('click', (e) => {
           modals.forEach(modal => {
               if (e.target === modal) {
-                  modal.classList.remove('active');
+                  closeModal(modal);
               }
           });
       });
-      
-      // Floating circles background
-      const bg = document.getElementById('floating-bg');
-      if (bg) { // Check if the element exists
-        for (let i = 0; i < 15; i++) {
-          const circle = document.createElement('div');
-          const size = Math.random() * 120 + 40;
-          circle.classList.add('circle');
-          circle.style.width = `${size}px`;
-          circle.style.height = `${size}px`;
-          circle.style.left = `${Math.random() * 100}vw`;
-          circle.style.animationDuration = `${12 + Math.random() * 15}s`;
-          circle.style.animationDelay = `${Math.random() * 6}s`;
-          bg.appendChild(circle);
-        }
-      }
+      window.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+              const activeModal = document.querySelector('.modal.active');
+              if (activeModal) {
+                  closeModal(activeModal);
+              }
+          }
+      });
     });
   </script>
 </body>
 </html>
+
