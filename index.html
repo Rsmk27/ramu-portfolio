@@ -1,757 +1,779 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Narlapati Ramu | Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary: #0A192F;
-      --primary-light: #112240;
-      --accent: #4CA1AF;
-      --accent-light: #64ffda;
-      --text: #E6F1FF;
-      --text-secondary: #8892b0;
-      --background: #F8F9FA; /* Slightly off-white for a softer look */
-      --card-bg: #FFFFFF;
-      --shadow-color: rgba(10, 25, 47, 0.1);
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--background);
-      color: var(--primary);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Narlapati Ramu | Portfolio</title>
+    <!-- Professional Font: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lottie Player -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <style>
+        :root {
+            --primary: #111827; /* Dark Blue-Gray */
+            --primary-light: #1F2937;
+            --accent: #38BDF8; /* Sky Blue */
+            --accent-hover: #0EA5E9;
+            --text: #E5E7EB; /* Light Gray */
+            --text-secondary: #9CA3AF; /* Medium Gray */
+            --background: #F9FAFB; /* Off-white */
+            --card-bg: #FFFFFF;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --border-color: #E5E7EB;
+        }
 
-    /* General UI Elements */
-    .btn {
-        display: inline-block;
-        padding: 0.75rem 1.75rem;
-        border: 2px solid var(--accent);
-        background-color: transparent;
-        color: var(--accent);
-        border-radius: 4px;
-        text-decoration: none;
-        font-weight: 600;
-        font-family: 'Poppins', sans-serif;
-        transition: all 0.3s ease;
-    }
-    .btn:hover, .btn:focus-visible {
-        background-color: var(--accent);
-        color: white;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
 
-    /* Header & Navigation */
-    header {
-      background-color: rgba(10, 25, 47, 0.85);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      color: var(--text);
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      transition: box-shadow 0.3s, padding 0.3s;
-    }
-    header.scrolled {
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        padding: 0.75rem 2rem;
-    }
-    header h1 {
-      font-size: 1.5rem;
-      font-family: 'Poppins', sans-serif;
-    }
-    header h1 span {
-      color: var(--accent-light);
-    }
-    nav a {
-      color: var(--text);
-      margin: 0 1rem;
-      text-decoration: none;
-      font-weight: 500;
-      position: relative;
-      transition: color 0.3s;
-    }
-    nav a::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      bottom: -5px;
-      left: 0;
-      background-color: var(--accent-light);
-      transition: width 0.3s;
-    }
-    nav a:hover, nav a:focus-visible {
-      color: var(--accent-light);
-      outline: none; /* Custom focus handled by ::after */
-    }
-    nav a:hover::after, nav a:focus-visible::after {
-      width: 100%;
-    }
-    
-    /* Section Base & Animation */
-    section {
-      padding: 6rem 2rem;
-      max-width: 1100px;
-      margin: auto;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-    }
-    section.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background);
+            color: #333;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
 
-    /* Hero Section */
-    .hero {
-      text-align: center;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background-color: var(--primary);
-      color: var(--text);
-      position: relative;
-      overflow: hidden;
-      padding: 5rem 2rem;
-      opacity: 1;
-      transform: translateY(0);
-    }
-    #particle-canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-    }
-    .hero-content {
-        position: relative;
-        z-index: 2; /* Ensure content is above the canvas */
-    }
-    .hero-content p {
-      margin-top: 1rem;
-      margin-bottom: 2rem;
-      color: var(--text-secondary);
-      font-size: clamp(1rem, 2.5vw, 1.25rem);
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeSlideIn 1.2s ease forwards 0.6s;
-    }
-    .hero-content .btn {
-      opacity: 0;
-      transform: translateY(10px);
-      animation: fadeSlideIn 1.2s ease forwards 0.9s;
-      color: var(--accent-light);
-      border-color: var(--accent-light);
-    }
-    .hero-content .btn:hover {
-        background-color: var(--accent-light);
-        color: var(--primary);
-    }
-    .hero h1 {
-      font-family: 'Poppins', sans-serif;
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      min-height: 1.2em; /* Reserve space */
-    }
-    .typing-cursor {
-      display: inline-block;
-      width: 4px;
-      height: 1em;
-      background-color: var(--accent-light);
-      animation: blink 0.7s infinite;
-      vertical-align: middle;
-    }
-    @keyframes blink { 50% { opacity: 0; } }
-    @keyframes fadeSlideIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    /* Content Section Base Styling */
-    .content-section {
-        background-color: var(--card-bg);
-        border-radius: 12px;
-        box-shadow: 0 10px 30px -15px var(--shadow-color);
-        margin-bottom: 3rem;
-        padding: 3rem;
-    }
-    h2 {
-      color: var(--primary);
-      border-left: 5px solid var(--accent);
-      padding-left: 15px;
-      margin-bottom: 2.5rem;
-      font-family: 'Poppins', sans-serif;
-      font-size: 2rem;
-    }
-    
-    /* About Me Section (Zig-Zag Layout) */
-    .about-container {
-      display: flex;
-      align-items: center;
-      gap: 3rem;
-    }
-    .about-text {
-      flex: 2;
-    }
-    .profile-picture-container {
-      flex: 1;
-      max-width: 280px;
-      position: relative;
-    }
-    .profile-picture {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1 / 1;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 5px solid var(--accent);
-      box-shadow: 0 10px 30px var(--shadow-color);
-      transition: transform 0.3s;
-    }
-    .profile-picture:hover {
-        transform: scale(1.05);
-    }
+        .container {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: auto;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
 
-    /* Skills Section */
-    .skills-list { display: flex; flex-wrap: wrap; gap: 1rem; }
-    .skill { background-color: #eef7f8; color: var(--accent); padding: 0.75rem 1.25rem; border-radius: 25px; font-weight: 500; transition: transform 0.2s, box-shadow 0.2s; border: 1px solid var(--accent); }
-    .skill:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(76,161,175,0.2); background-color: var(--accent); color: white; }
-    
-    /* Education Section */
-    .education-item {
-        margin-bottom: 1.5rem;
-        padding-bottom: 1.5rem;
-        border-bottom: 1px solid #eee;
-    }
-    .education-item:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-    }
-    
-    /* Projects Section */
-    .project-filters { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
-    .filter-btn { background: #eee; border: none; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; transition: all 0.3s; font-weight: 500; }
-    .filter-btn.active { background: var(--accent); color: white; }
-    .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
-    .project { 
-        background-color: #fff; 
-        border-radius: 10px; 
-        box-shadow: 0 4px 12px var(--shadow-color); 
-        padding: 1.5rem; 
-        transition: transform 0.3s, box-shadow 0.3s, opacity 0.4s, scale 0.4s; 
-        cursor: pointer; 
-        border: 1px solid #eee;
-        scale: 1;
-        opacity: 1;
-    }
-    .project.hide { 
-        scale: 0.8;
-        opacity: 0;
-        pointer-events: none; /* Make hidden items unclickable */
-    }
-    .project:hover { transform: translateY(-8px); box-shadow: 0 12px 25px var(--shadow-color); }
-    .project h3 { font-family: 'Poppins', sans-serif; margin-bottom: 0.5rem; color: var(--primary); }
-    .project p { color: #555; }
-    
-    /* Modal Styling */
-    .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 200; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
-    .modal.active { opacity: 1; visibility: visible; }
-    .modal-content { background: white; padding: 2rem; border-radius: 12px; width: 90%; max-width: 600px; transform: scale(0.9); transition: transform 0.3s; position: relative; }
-    .modal.active .modal-content { transform: scale(1); }
-    .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #555; transition: color 0.2s; }
-    .modal-close:hover { color: var(--primary); }
-    .modal-content img { width: 100%; border-radius: 8px; margin-bottom: 1rem; }
-    .modal-content a.btn { margin-top: 1rem; }
-    
-    /* Contact Section */
-    .contact-intro {
-        text-align: center;
-        max-width: 700px;
-        margin: 0 auto 3rem auto;
-        color: #555;
-    }
-    .contact-container {
-        display: flex;
-        gap: 3rem;
-        align-items: flex-start;
-    }
-    .contact-info, .contact-form-container {
-        flex: 1;
-    }
-    .contact-info h3, .contact-form-container h3 {
-        font-family: 'Poppins', sans-serif;
-        color: var(--primary);
-        margin-bottom: 1.5rem;
-        font-size: 1.4rem;
-    }
-    .contact-info ul {
-        list-style: none;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-    .contact-info li a {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        text-decoration: none;
-        color: var(--primary);
-        font-weight: 500;
-        transition: color 0.3s, transform 0.3s;
-    }
-    .contact-info li a:hover {
-        color: var(--accent);
-        transform: translateX(5px);
-    }
-    .contact-info li svg {
-        width: 24px;
-        height: 24px;
-        flex-shrink: 0; /* Prevents icon from shrinking */
-        color: var(--accent);
-    }
-    .contact-form-container form {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-    input, textarea { padding: 1rem; border-radius: 8px; border: 1px solid #ccc; font-family: 'Inter', sans-serif; transition: border-color 0.3s, box-shadow 0.3s; }
-    input:focus, textarea:focus {
-        outline: none;
-        border-color: var(--accent);
-        box-shadow: 0 0 0 3px rgba(76, 161, 175, 0.2);
-    }
-    
-    /* Footer */
-    footer { background-color: var(--primary); color: var(--text-secondary); text-align: center; padding: 2rem; }
+        .container.is-visible,
+        .fade-in-section.is-visible .container {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-    /* Hamburger Menu & Mobile Responsiveness */
-    .hamburger { display: none; cursor: pointer; z-index: 101; background: none; border: none; padding: 5px; }
-    .hamburger div { width: 25px; height: 3px; background-color: var(--text); margin: 5px; transition: all 0.3s; }
-    
-    @media (max-width: 768px) {
-        h2 { font-size: 1.8rem; }
-        section { padding: 4rem 1.5rem; }
-        .content-section { padding: 2rem; }
-        
-        nav {
-            position: fixed;
+        /* Header & Navigation */
+        header {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
             top: 0;
-            right: 0;
-            height: 100vh;
-            width: 70%;
-            background: var(--primary-light);
-            flex-direction: column;
+            z-index: 100;
+            transition: box-shadow 0.3s, padding 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+
+        header.scrolled {
+            box-shadow: 0 4px 15px var(--shadow-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 2rem;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        header h1 span {
+            color: var(--accent);
+        }
+        
+        nav a {
+            color: var(--primary);
+            margin: 0 1rem;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent);
+            transition: width 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent);
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
+        }
+
+        /* Section Base */
+        .section-title {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent);
+            border-radius: 2px;
+        }
+
+        /* Home Section */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background-color: var(--primary);
+            color: var(--text);
+            position: relative;
+            overflow: hidden;
+            padding: 0 2rem;
+            opacity: 1; /* Always visible on load */
+            transform: translateY(0);
+        }
+
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .home-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .home-text {
+            flex: 1;
+            max-width: 600px;
+            animation: fadeSlideIn 1.2s ease forwards 0.3s;
+            opacity: 0;
+        }
+        .home-text h2 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        .home-text h2 span {
+             color: var(--accent);
+        }
+        .home-text p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        .home-lottie {
+            flex: 1;
+            max-width: 500px;
+            display: flex;
             justify-content: center;
             align-items: center;
-            display: flex; /* Ensure it's a flex container */
-            transform: translateX(100%);
-            transition: transform 0.4s ease-in-out;
-        }
-        nav.active {
-            transform: translateX(0);
-        }
-        nav a { margin: 1.5rem 0; font-size: 1.2rem; }
-        .hamburger { display: block; }
-        .hamburger.toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
-        .hamburger.toggle .line2 { opacity: 0; }
-        .hamburger.toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
-
-        .about-container {
-            flex-direction: column;
-            text-align: center;
-        }
-        .profile-picture-container {
-            order: -1; /* Move image to the top on mobile */
-            margin-bottom: 2rem;
-            max-width: 200px;
-        }
-        .contact-container {
-            flex-direction: column;
-        }
-    }
-  </style>
-</head>
-<body>
-  <header id="header">
-    <h1>Narlapati <span>Ramu</span></h1>
-    <nav id="nav-links">
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero" id="home">
-      <canvas id="particle-canvas"></canvas>
-      <div class="hero-content">
-          <h1><span id="typing-text"></span><span class="typing-cursor"></span></h1>
-          <p>Problem-Solver | Innovator | Lifelong Learner</p>
-          <a href="#projects" class="btn">View My Work</a>
-      </div>
-    </section>
-
-    <section id="about" class="fade-in-section content-section">
-      <div class="about-container">
-        <div class="about-text">
-          <h2>About Me</h2>
-          <p>My name is Narlapati Ramu, a passionate Electrical and Electronics Engineer dedicated to innovation and practical problem-solving. I aim to apply my knowledge to real-world challenges, focusing on automation, IoT, and smart technologies that create a meaningful impact.</p>
-        </div>
-        <div class="profile-picture-container">
-          <img src="ramu-proflie.png" alt="A profile picture of Narlapati Ramu" class="profile-picture">
-        </div>
-      </div>
-    </section>
-
-    <section class="skills fade-in-section content-section" id="skills">
-      <h2>My Skillset</h2>
-      <div class="skills-list">
-        <div class="skill">Generative AI</div>
-        <div class="skill">Automation</div>
-        <div class="skill">Internet of Things (IoT)</div>
-        <div class="skill">Arduino Development</div>
-        <div class="skill">Embedded Systems</div>
-      </div>
-    </section>
-    
-    <section class="education fade-in-section content-section" id="education">
-      <h2>Education</h2>
-      <div class="education-item">
-          <p><strong>Jawaharlal Nehru Technological University Kakinada (JNTUK)</strong><br>
-          Bachelor of Technology - BTech, Electrical and Electronics Engineering (2024 - 2026)</p>
-      </div>
-      <div class="education-item">
-          <p><strong>State Board of Technical Education and Training (SBTET), Andhra Pradesh</strong><br>
-          Diploma of Education, Electrical and Electronics Engineering (2021 - 2023)</p>
-      </div>
-    </section>
-
-    <section class="projects fade-in-section content-section" id="projects">
-      <h2>My Projects</h2>
-      <div class="project-filters">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="ai">Generative AI</button>
-          <button class="filter-btn" data-filter="automation">Automation</button>
-          <button class="filter-btn" data-filter="iot">IoT</button>
-      </div>
-      <div class="project-grid">
-        <div class="project" data-category="ai" data-modal-target="#modal-chatbot" tabindex="0">
-          <h3>AI Chatbot with GPT-OSS</h3>
-          <p>A web-based chatbot powered by GPT-OSS and Hugging Face.</p>
-        </div>
-        <div class="project" data-category="automation" data-modal-target="#modal-exhaust" tabindex="0">
-          <h3>Automatic Exhaust Fan</h3>
-          <p>Arduino-based air quality system with MQ-2 sensor and auto-control.</p>
-        </div>
-        <div class="project" data-category="iot" data-modal-target="#modal-ohmdecoder" tabindex="0">
-          <h3>OhmDecoder</h3>
-          <p>Resistor color code calculator web app for electronics enthusiasts.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="contact fade-in-section content-section" id="contact">
-      <h2>Let's Connect</h2>
-      <p class="contact-intro">I'm always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious vision. Feel free to reach out through any of the platforms below or by using the contact form.</p>
-      <div class="contact-container">
-        <div class="contact-info">
-          <h3>Contact Information</h3>
-          <ul>
-            <li>
-              <a href="https://linkedin.com/in/narlapati-ramu" target="_blank" rel="noopener noreferrer">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
-                <span>linkedin</span>
-              </a>
-            </li>
-            <li>
-              <a href="https://github.com/ramunarlapati-13" target="_blank" rel="noopener noreferrer">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>
-                <span>github</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="contact-form-container">
-
-        </div>
-      </div>
-    </section>
-  </main>
-  
-  <footer>
-    <p>&copy; 2025 Narlapati Ramu. All Rights Reserved.</p>
-  </footer>
-
-  <!-- Project Modals -->
-  <div class="modal" id="modal-chatbot" role="dialog" aria-modal="true" aria-labelledby="modal-chatbot-title">
-    <div class="modal-content">
-        <button class="modal-close" aria-label="Close modal">&times;</button>
-        <img src="https://placehold.co/600x400/0A192F/E6F1FF?text=AI+Chatbot" alt="AI Chatbot Project Image">
-        <h2 id="modal-chatbot-title">AI Chatbot with GPT-OSS</h2>
-        <p>This project features a fully functional, web-based chatbot powered by a GPT open-source model. It was built using Next.js for the frontend, integrated with the Hugging Face API for the AI inference, and is seamlessly deployed on Vercel for high availability.</p>
-        <a href="#" class="btn" style="margin-top: 1rem;">View Live</a>
-    </div>
-  </div>
-  <div class="modal" id="modal-exhaust" role="dialog" aria-modal="true" aria-labelledby="modal-exhaust-title">
-    <div class="modal-content">
-        <button class="modal-close" aria-label="Close modal">&times;</button>
-        <img src="https://placehold.co/600x400/0A192F/E6F1FF?text=Exhaust+Fan" alt="Automatic Exhaust Fan Project Image">
-        <h2 id="modal-exhaust-title">Automatic Exhaust Fan</h2>
-        <p>An intelligent, Arduino-based system designed to monitor air quality using an MQ-2 gas sensor. The exhaust fan activates automatically when pollutant levels exceed a set threshold and includes a smart auto-off timer and manual override for user convenience.</p>
-        <a href="#" class="btn" style="margin-top: 1rem;">View Code</a>
-    </div>
-  </div>
-  <div class="modal" id="modal-ohmdecoder" role="dialog" aria-modal="true" aria-labelledby="modal-ohmdecoder-title">
-    <div class="modal-content">
-        <button class="modal-close" aria-label="Close modal">&times;</button>
-        <img src="https://placehold.co/600x400/0A192F/E6F1FF?text=OhmDecoder" alt="OhmDecoder Project Image">
-        <h2 id="modal-ohmdecoder-title">OhmDecoder</h2>
-        <p>A practical and user-friendly web application for electronics enthusiasts and professionals. This tool simplifies the process of identifying resistor values based on their color codes. It is built with HTML, CSS, and JavaScript and is hosted live on GitHub Pages for easy access.</p>
-        <a href="#" class="btn" style="margin-top: 1rem;">View Live</a>
-    </div>
-  </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-
-      // --- Interactive Particle Background ---
-      const canvas = document.getElementById('particle-canvas');
-      if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let particlesArray;
-
-        const mouse = {
-            x: null,
-            y: null,
-            radius: 150
-        };
-
-        window.addEventListener('mousemove', (event) => {
-            mouse.x = event.x;
-            mouse.y = event.y;
-        });
-
-        class Particle {
-            constructor(x, y, directionX, directionY, size, color) {
-                this.x = x;
-                this.y = y;
-                this.directionX = directionX;
-                this.directionY = directionY;
-                this.size = size;
-                this.color = color;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                ctx.fillStyle = 'rgba(100, 255, 218, 0.8)';
-                ctx.fill();
-            }
-            update() {
-                if (this.x > canvas.width || this.x < 0) {
-                    this.directionX = -this.directionX;
-                }
-                if (this.y > canvas.height || this.y < 0) {
-                    this.directionY = -this.directionY;
-                }
-                this.x += this.directionX;
-                this.y += this.directionY;
-                this.draw();
-            }
-        }
-
-        function init() {
-            canvas.width = window.innerWidth;
-            canvas.height = document.querySelector('.hero').offsetHeight;
-            particlesArray = [];
-            let numberOfParticles = (canvas.width * canvas.height) / 9000;
-            for (let i = 0; i < numberOfParticles; i++) {
-                let size = (Math.random() * 2) + 1;
-                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-                let y = (Math.random() * ((canvas.height - size * 2) - (size * 2)) + size * 2);
-                let directionX = (Math.random() * .4) - .2;
-                let directionY = (Math.random() * .4) - .2;
-                particlesArray.push(new Particle(x, y, directionX, directionY, size));
-            }
-        }
-
-        function connect() {
-            let opacityValue = 1;
-            for (let a = 0; a < particlesArray.length; a++) {
-                for (let b = a; b < particlesArray.length; b++) {
-                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) +
-                                 ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-                    if (distance < (canvas.width / 7) * (canvas.height / 7)) {
-                        opacityValue = 1 - (distance / 20000);
-                        ctx.strokeStyle = `rgba(140, 149, 178, ${opacityValue})`;
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                        ctx.stroke();
-                    }
-                }
-            }
         }
         
-        function animate() {
-            requestAnimationFrame(animate);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-            }
-            connect();
+        .btn {
+            display: inline-block;
+            padding: 0.85rem 2rem;
+            border: 2px solid var(--accent);
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background-color: transparent;
+            color: var(--accent);
         }
 
-        window.addEventListener('resize', () => {
-            init();
-        });
-
-        init();
-        animate();
-      }
-
-      // --- Header scroll effect ---
-      const header = document.getElementById('header');
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-          header.classList.add('scrolled');
-        } else {
-          header.classList.remove('scrolled');
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-      });
 
-      // --- Typing effect for hero headline ---
-      const typingText = document.getElementById('typing-text');
-      if (typingText) {
-        const textToType = "Electrical & Electronics Engineer";
-        let charIndex = 0;
-        const type = () => {
-            if (charIndex < textToType.length) {
-                typingText.textContent += textToType.charAt(charIndex);
-                charIndex++;
-                setTimeout(type, 100);
-            }
-        };
-        setTimeout(type, 500);
-      }
-
-      // --- On-scroll fade-in animations ---
-      const sections = document.querySelectorAll('.fade-in-section');
-      const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                  entry.target.classList.add('is-visible');
-              }
-          });
-      }, { threshold: 0.1 });
-      sections.forEach(section => observer.observe(section));
-
-      // --- Hamburger menu for mobile ---
-      const hamburger = document.getElementById('hamburger');
-      const navLinks = document.getElementById('nav-links');
-      hamburger.addEventListener('click', () => {
-          navLinks.classList.toggle('active');
-          hamburger.classList.toggle('toggle');
-          const isExpanded = navLinks.classList.contains('active');
-          hamburger.setAttribute('aria-expanded', isExpanded);
-      });
-
-      // --- Smooth project filtering ---
-      const filterButtons = document.querySelectorAll('.filter-btn');
-      const projects = document.querySelectorAll('.project');
-      filterButtons.forEach(button => {
-          button.addEventListener('click', () => {
-              filterButtons.forEach(btn => btn.classList.remove('active'));
-              button.classList.add('active');
-              const filter = button.dataset.filter;
-              
-              projects.forEach(project => {
-                  if (filter === 'all' || project.dataset.category === filter) {
-                      project.classList.remove('hide');
-                  } else {
-                      project.classList.add('hide');
-                  }
-              });
-          });
-      });
-      
-      // --- Accessible Project Modals ---
-      const modalTriggers = document.querySelectorAll('.project');
-      const modals = document.querySelectorAll('.modal');
-      const closeButtons = document.querySelectorAll('.modal-close');
-      let lastFocusedElement;
-
-      const openModal = (modal) => {
-        lastFocusedElement = document.activeElement;
-        modal.classList.add('active');
-        modal.querySelector('.modal-close').focus();
-      };
-      
-      const closeModal = (modal) => {
-        modal.classList.remove('active');
-        if (lastFocusedElement) {
-            lastFocusedElement.focus();
+        /* About Section */
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
         }
-      };
+        .about-photo {
+            flex: 1;
+            max-width: 300px;
+        }
+        .about-photo img {
+            width: 100%;
+            border-radius: 50%;
+            border: 8px solid var(--card-bg);
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+        .about-text {
+            flex: 2;
+        }
+        .about-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
 
-      modalTriggers.forEach(trigger => {
-        trigger.addEventListener('click', () => {
-            const targetModal = document.querySelector(trigger.dataset.modalTarget);
-            if (targetModal) openModal(targetModal);
-        });
-        trigger.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                const targetModal = document.querySelector(trigger.dataset.modalTarget);
-                if (targetModal) openModal(targetModal);
+        /* Projects Section */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 25px var(--shadow-color);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-color);
+        }
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px var(--shadow-color);
+        }
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .project-info {
+            padding: 1.5rem;
+        }
+        .project-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        /* Timeline Section */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--accent);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: white;
+            border: 4px solid var(--accent);
+            top: 20px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .timeline-item.left {
+            left: 0;
+        }
+        .timeline-item.right {
+            left: 50%;
+        }
+        .timeline-item.right::after {
+            left: -10px;
+        }
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: var(--card-bg);
+            position: relative;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px var(--shadow-color);
+            border: 1px solid var(--border-color);
+        }
+        .timeline-content h3 { color: var(--primary); }
+        .timeline-content p { font-size: 0.9rem; }
+        
+        /* Technical Arsenal Section */
+        .arsenal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        .arsenal-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px var(--shadow-color);
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        .arsenal-card h3 {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        .arsenal-card ul {
+            list-style-type: none;
+        }
+        .arsenal-card li {
+            margin-bottom: 0.75rem;
+        }
+
+        /* Connect Section */
+        #connect {
+            background-color: var(--primary-light);
+            color: var(--text);
+        }
+        #connect .section-title {
+            color: var(--text);
+        }
+        #connect .section-title::after {
+            background-color: var(--accent);
+        }
+        .connect-content {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+        .connect-info {
+            flex: 1.5;
+        }
+        .connect-info p {
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+        }
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .contact-details a {
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: color 0.3s;
+        }
+        .contact-details a:hover {
+            color: var(--accent);
+        }
+        .contact-details svg {
+            width: 24px;
+            height: 24px;
+            color: var(--accent);
+        }
+        .connect-lottie {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 101;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--primary);
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .arsenal-grid { grid-template-columns: 1fr; }
+            .connect-content, .about-content, .home-content { flex-direction: column; text-align: center; }
+            .home-text, .about-text { margin-bottom: 2rem; }
+            .about-photo { order: -1; margin-bottom: 2rem; max-width: 250px;}
+            .connect-info { margin-bottom: 2rem; }
+            .contact-details a { justify-content: center; }
+        }
+
+        @media (max-width: 768px) {
+            .timeline::after { left: 31px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-item.right { left: 0%; }
+            .timeline-item.left::after, .timeline-item.right::after { left: 21px; }
+
+            nav {
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100vh;
+                width: 70%;
+                max-width: 300px;
+                background: white;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                display: flex;
+                transform: translateX(100%);
+                transition: transform 0.4s ease-in-out;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
             }
-        });
-      });
+            nav.active { transform: translateX(0); }
+            nav a { margin: 1.5rem 0; font-size: 1.2rem; }
+            .hamburger { display: block; }
+            .hamburger.toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+            .hamburger.toggle .line2 { opacity: 0; }
+            .hamburger.toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <h1>Narlapati <span>Ramu</span></h1>
+        <nav id="nav-links">
+            <a href="#home" class="active">Home</a>
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#timeline">Timeline</a>
+            <a href="#arsenal">Arsenal</a>
+            <a href="#connect">Connect</a>
+        </nav>
+        <button class="hamburger" id="hamburger" aria-label="Open navigation menu">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </button>
+    </header>
 
-      closeButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            closeModal(button.closest('.modal'));
-        });
-      });
+    <main>
+        <!-- Home Section -->
+        <section id="home">
+            <canvas id="particle-canvas"></canvas>
+            <div class="home-content">
+                <div class="home-text">
+                    <h2>Hi, I'm <span>Ramu</span><br>An Electronics Engineer</h2>
+                    <p>Passionate about building innovative solutions in automation, IoT, and AI.</p>
+                    <a href="#projects" class="btn">View My Work</a>
+                </div>
+                <div class="home-lottie">
+                    <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_pwohahvd.json" background="transparent" speed="1" style="width: 100%; max-width: 500px;" loop autoplay></lottie-player>
+                </div>
+            </div>
+        </section>
 
-      window.addEventListener('click', (e) => {
-          modals.forEach(modal => {
-              if (e.target === modal) {
-                  closeModal(modal);
-              }
-          });
-      });
-      window.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') {
-              const activeModal = document.querySelector('.modal.active');
-              if (activeModal) {
-                  closeModal(activeModal);
-              }
-          }
-      });
-    });
-  </script>
+        <!-- About Me Section -->
+        <section id="about" class="container fade-in-section">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-photo">
+                    <img src="ramu-profile.png" alt="Profile photo of Narlapati Ramu">
+                </div>
+                <div class="about-text">
+                    <h3>Dedicated to Innovation & Problem-Solving</h3>
+                    <p>I am a passionate Electrical and Electronics Engineer focused on leveraging technology to create practical solutions for real-world challenges. My journey is driven by a curiosity for automation, smart technologies, and the Internet of Things (IoT).</p>
+                    <h3>Interests</h3>
+                    <p>Outside of engineering, I enjoy exploring the world of AI, staying updated with the latest tech trends, and occasionally diving into a good book like "Deep Work" to improve focus and productivity.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="container fade-in-section">
+            <h2 class="section-title">Projects Showcase</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <img src="https://placehold.co/600x400/111827/E5E7EB?text=Exhaust+Fan" alt="Automatic Exhaust Fan Project">
+                    <div class="project-info">
+                        <h3>Automatic Exhaust Fan</h3>
+                        <p>An Arduino-based smart system that monitors air quality and automatically controls an exhaust fan.</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="https://placehold.co/600x400/111827/E5E7EB?text=ColorOhm" alt="ColorOhm Website Project">
+                    <div class="project-info">
+                        <h3>ColorOhm Website</h3>
+                        <p>A web application for electronics enthusiasts to easily calculate resistor values from color codes.</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="https://placehold.co/600x400/111827/E5E7EB?text=Budget+Buddy" alt="Budget Buddy Project">
+                    <div class="project-info">
+                        <h3>Budget Buddy</h3>
+                        <p>A user-friendly application to help manage personal finances and track spending habits effectively.</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="https://placehold.co/600x400/111827/E5E7EB?text=AI+Chatbot" alt="AI Chatbot Project">
+                    <div class="project-info">
+                        <h3>AI Chatbot</h3>
+                        <p>A web-based chatbot powered by a GPT open-source model and the Hugging Face API.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section id="timeline" class="container fade-in-section">
+            <h2 class="section-title">My Journey</h2>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>Bachelor of Technology, EEE</h3>
+                        <p><strong>JNTUK, Kakinada</strong> | 2024 - 2026</p>
+                        <p>Pursuing my undergraduate degree, focusing on core electrical and electronics engineering principles.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>Diploma in EEE</h3>
+                        <p><strong>SBTET, Andhra Pradesh</strong> | 2021 - 2023</p>
+                        <p>Completed my diploma, building a strong foundational knowledge in the field.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Technical Arsenal Section -->
+        <section id="arsenal" class="container fade-in-section">
+            <h2 class="section-title">Technical Arsenal</h2>
+            <div class="arsenal-grid">
+                <div class="arsenal-card">
+                    <h3>Core Skills</h3>
+                    <ul>
+                        <li>Generative AI</li>
+                        <li>Automation & Control</li>
+                        <li>Internet of Things (IoT)</li>
+                        <li>Embedded Systems</li>
+                        <li>Problem Solving</li>
+                    </ul>
+                </div>
+                <div class="arsenal-card">
+                    <h3>Technology Stack</h3>
+                    <ul>
+                        <li>Arduino Development</li>
+                        <li>C / C++</li>
+                        <li>Python</li>
+                        <li>HTML, CSS, JavaScript</li>
+                        <li>Next.js</li>
+                    </ul>
+                </div>
+                <div class="arsenal-card">
+                    <h3>Certifications</h3>
+                    <ul>
+                        <li>AI For India 2.0 (GUVI)</li>
+                        <li>IoT & Embedded Systems (Udemy)</li>
+                        <li>Advanced C++ (Coursera)</li>
+                        <li>Responsive Web Design (freeCodeCamp)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Connect Section -->
+        <section id="connect" class="fade-in-section">
+            <div class="container">
+                <h2 class="section-title">Connect With Me</h2>
+                <div class="connect-content">
+                    <div class="connect-info">
+                        <h3>Let's Build Something Amazing Together</h3>
+                        <p>I'm currently available for freelance work and open to discussing new projects. Whether you have a question or just want to say hi, my inbox is always open. I'll get back to you!</p>
+                        <div class="contact-details">
+                            <a href="mailto:ramu.narlapati.dev@email.com">
+                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                                <span>ramu.narlapati.dev@email.com</span>
+                            </a>
+                            <a href="tel:+911234567890">
+                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.02.74-.25 1.02l-2.2 2.2z"></path></svg>
+                               <span>+91 12345 67890</span>
+                            </a>
+                            <a href="https://linkedin.com/in/narlapati-ramu" target="_blank">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zm-7 5.57h-2.47v7.43H12v-7.43zm-1.24-1.87a1.49 1.49 0 1 0 0-2.98 1.49 1.49 0 0 0 0 2.98zm5.6 1.87h-2.37v3.54c0 .9.63 1.1 1.05 1.1.42 0 .97-.23.97-.23v2.03s-.7.34-1.63.34c-1.6 0-2.8-1-2.8-3.03v-3.75h-1.5v-2.1h1.5v-1.1c0-1.2.6-2.4 2.1-2.4h2.1v2.1z"/></svg>
+                                <span>linkedin.com/in/narlapati-ramu</span>
+                            </a>
+                             <a href="https://github.com/ramunarlapati-13" target="_blank">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.04c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.46-1.33-5.46-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1-.32 3.3 1.23.95-.26 1.98-.4 3-.4s2.05.13 3 .4c2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.19.69.82.58A12 12 0 0 0 12 0z"/></svg>
+                                <span>github.com/ramunarlapati-13</span>
+                            </a>
+                            <a href="https://t.me/your_telegram_username" target="_blank">
+                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
+                               <span>t.me/your_telegram_username</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="connect-lottie">
+                         <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_dhcsd5b5.json" background="transparent" speed="1" style="width: 100%; max-width: 400px;" loop autoplay></lottie-player>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Narlapati Ramu. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Interactive Particle Background ---
+            const canvas = document.getElementById('particle-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                let particlesArray;
+
+                function init() {
+                    canvas.width = window.innerWidth;
+                    canvas.height = document.getElementById('home').offsetHeight;
+                    particlesArray = [];
+                    let numberOfParticles = (canvas.width * canvas.height) / 10000;
+                    for (let i = 0; i < numberOfParticles; i++) {
+                        let size = (Math.random() * 2) + 1;
+                        let x = Math.random() * canvas.width;
+                        let y = Math.random() * canvas.height;
+                        let directionX = (Math.random() * .4) - .2;
+                        let directionY = (Math.random() * .4) - .2;
+                        particlesArray.push({ x, y, directionX, directionY, size });
+                    }
+                }
+
+                function animate() {
+                    requestAnimationFrame(animate);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    for (let i = 0; i < particlesArray.length; i++) {
+                        let p = particlesArray[i];
+                        p.x += p.directionX;
+                        p.y += p.directionY;
+                        if (p.x > canvas.width || p.x < 0) p.directionX = -p.directionX;
+                        if (p.y > canvas.height || p.y < 0) p.directionY = -p.directionY;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(56, 189, 248, 0.5)';
+                        ctx.fill();
+                    }
+                    connect();
+                }
+
+                function connect() {
+                    let opacityValue = 1;
+                    for (let a = 0; a < particlesArray.length; a++) {
+                        for (let b = a; b < particlesArray.length; b++) {
+                            let distance = Math.sqrt(Math.pow(particlesArray[a].x - particlesArray[b].x, 2) + Math.pow(particlesArray[a].y - particlesArray[b].y, 2));
+                            if (distance < 120) {
+                                opacityValue = 1 - (distance / 120);
+                                ctx.strokeStyle = `rgba(156, 163, 175, ${opacityValue})`;
+                                ctx.lineWidth = 1;
+                                ctx.beginPath();
+                                ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                                ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                                ctx.stroke();
+                            }
+                        }
+                    }
+                }
+
+                window.addEventListener('resize', init);
+                init();
+                animate();
+            }
+
+            // --- Header Scroll Effect ---
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                header.classList.toggle('scrolled', window.scrollY > 50);
+            });
+
+            // --- Active Nav Link on Scroll ---
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('nav a');
+            const observerOptions = { rootMargin: '-50% 0px -50% 0px' };
+            
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => sectionObserver.observe(section));
+
+
+            // --- On-scroll Fade-in Animations ---
+            const fadeSections = document.querySelectorAll('.fade-in-section');
+            const fadeInObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        fadeInObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            fadeSections.forEach(section => fadeInObserver.observe(section));
+
+            // --- Hamburger Menu for Mobile ---
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-links');
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.classList.toggle('toggle');
+            });
+            // Close menu when a link is clicked
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                     navMenu.classList.remove('active');
+                     hamburger.classList.remove('toggle');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
+
+
+
 
